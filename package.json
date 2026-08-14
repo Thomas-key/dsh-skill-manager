@@ -1,7 +1,7 @@
 {
   "name": "dsh-skill-manager",
-  "version": "0.1.0",
-  "description": "Manage DeepSeek Harness skills: list filesystem skills and toggle them on/off (SKILL.md <-> SKILL.md.disabled), straight from the agent or via the Settings UI (dynamic plugin mode).",
+  "version": "0.2.0",
+  "description": "Manage DeepSeek Harness skills: list filesystem skills and toggle them on/off (SKILL.md <-> SKILL.md.disabled), from the agent or via the Settings UI (bundle-included).",
   "keywords": [
     "deepseek-harness",
     "dsh",
@@ -16,6 +16,11 @@
   "author": "illusion",
   "type": "module",
   "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
   "files": [
     "lib",
     "cordis.patch.yml",
@@ -26,11 +31,21 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-locale"
+      ],
+      "platform": "web"
     }
   },
+  "dependencies": {
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6"
+  },
   "peerDependencies": {
-    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
-    "cordis": "^4.0.1"
+    "@deepseek-ai/cordis": "^4.0.1",
+    "react": "^18.2.0"
   },
   "engines": {
     "node": ">=18"

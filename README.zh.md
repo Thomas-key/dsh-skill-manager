@@ -1,11 +1,12 @@
 # dsh-skill-manager
 
-> 管理 DeepSeek Harness 的文件系统技能：列出、启用/禁用——既可通过 agent 直接操作，也可用设置页 UI（动态插件模式）。
+> 管理 DeepSeek Harness 的文件系统技能：列出、启用/禁用——既可通过 agent 直接操作，也可用设置页 UI（"技能"页）。
 
 DeepSeek Harness 直接从文件系统加载技能（`~/.agents/skills/<name>/SKILL.md`、`~/.dsh/skills`、项目级 `.dsh/skills` 和 `.agents/skills`），但**没有任何管理界面**：看不到装了什么技能，也无法关闭某个技能。`dsh-skill-manager` 补上这块空缺。
 
 - **`skills_list`** — 列出所有文件系统技能及其启用状态和一句话描述。
 - **`skills_toggle`** — 即时启用/禁用任意技能（无需重启）。
+- **设置页 UI** — 设置里的"技能"页，同样的列表和启用/禁用开关（bundle 内置，无需额外配置）。
 
 禁用的原理是把 `<name>/SKILL.md` 改名为 `<name>/SKILL.md.disabled`，启用则改回来。DSH 内置的技能文件系统提供方会 watch 技能根目录，所以被禁用的技能会**立刻从模型可见的技能目录中消失**（重新启用后立即恢复）。技能内容不会被改动——只动 `SKILL.md` 这个文件名。
 
@@ -30,14 +31,11 @@ dsh plugin --profile web add ./dsh-skill-manager
 
 agent 会调用 `skills_list` / `skills_toggle` 完成操作。开关即时生效——同一会话里再问一次"能看到哪些技能"即可验证。
 
-## 设置页 UI（可选，动态插件模式）
+## 设置页 UI
 
-同样的管理能力也可以作为**设置页**（设置 → 侧栏"技能"页）使用。由于 Web UI 以 client bundle 形式分发，本模式以动态 Cordis 插件提供（会话级；DSH 重启后需重新安装）：
+同样的管理能力也作为**设置页**（设置 → 侧栏"技能"页）提供。Web UI 以 client bundle 形式分发（`lib/client.js`，由 shell 的 `__ModuleLoader__` 加载），开箱即用、无需额外配置、重启后依然存在。
 
-1. 打开插件仓库里的 `plugin/skill-manager.js`。
-2. 用 `cordis_define` 把 `code.host` 设为该文件的 host 部分、`code.client` 设为 client 部分；然后 `cordis_run` 并批准。
-
-UI 列出同样的技能，带启用/禁用开关和刷新按钮。
+> 遗留说明：早期的动态插件变体（`plugin/skill-manager.js`）通过 `cordis_define`/`cordis_run` 提供同一套 UI。该文件仅作参考保留；现在的 bundle 已同时覆盖工具和 UI。
 
 ## 工作原理
 
