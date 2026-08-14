@@ -14,7 +14,7 @@ Disabling renames `<name>/SKILL.md` to `<name>/SKILL.md.disabled`; enabling rena
 The plugin is a dsh bundle (declares `dsh.bundle.patch`), so it installs like any other plugin:
 
 ```sh
-dsh plugin --profile web add <your-github-username>/dsh-skill-manager
+dsh plugin --profile web add Thomas-key/dsh-skill-manager
 ```
 
 or from a local checkout:

@@ -14,7 +14,7 @@ DeepSeek Harness 直接从文件系统加载技能（`~/.agents/skills/<name>/SK
 本插件是 dsh bundle（声明了 `dsh.bundle.patch`），像普通插件一样安装：
 
 ```sh
-dsh plugin --profile web add <你的GitHub用户名>/dsh-skill-manager
+dsh plugin --profile web add Thomas-key/dsh-skill-manager
 ```
 
 或从本地目录安装：
