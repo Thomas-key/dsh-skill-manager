@@ -12,24 +12,50 @@ Disabling renames `<name>/SKILL.md` to `<name>/SKILL.md.disabled`; enabling rena
 
 ## Install
 
-The plugin is a dsh bundle (declares `dsh.bundle.patch`), so it installs like any other plugin:
+The plugin is a dsh bundle (declares `dsh.bundle.patch`), so it installs like any other profile plugin.
+
+### Requirements
+
+- **Node.js ≥ 22.19** (check with `node --version`)
+- A dsh web profile (`dsh plugin` commands target the profile directory, e.g. `--profile web`)
+
+### ⚠️ Name collision warning
+
+There is an **unrelated npm package also named `dsh-skill-manager`** (published by a different author). Installing by bare npm name may pull the wrong package. Always install from this repository explicitly:
 
 ```sh
+# from GitHub
 dsh plugin --profile web add Thomas-key/dsh-skill-manager
-```
 
-or from a local checkout:
-
-```sh
+# or from a local checkout
 dsh plugin --profile web add ./dsh-skill-manager
 ```
 
-Restart `dsh web`, then ask the agent:
+### Installing
 
-> List my skills.
-> Disable the skill `read`.
+Your profile directory is a pnpm workspace root, so the install command **must include the `-w` flag** (otherwise pnpm refuses with `ERR_PNPM_ADDING_TO_ROOT`):
 
-The agent will call `skills_list` / `skills_toggle` for you. Toggling takes effect immediately — you can verify in the same session by asking what skills are visible.
+```sh
+dsh plugin --profile web add -w Thomas-key/dsh-skill-manager
+```
+
+For a local checkout, the plugin's runtime dependency (`@deepseek-ai/dsh-tools`) must be installed **inside the checkout** before adding it (the profile links the directory and Node resolves imports from it; a missing dependency crashes `dsh web` at startup with `ERR_MODULE_NOT_FOUND`):
+
+```sh
+cd dsh-skill-manager
+npm install
+cd ..
+dsh plugin --profile web add -w ./dsh-skill-manager
+```
+
+### Verify
+
+Restart `dsh web`, then either:
+
+- open **Settings → 技能** (the Settings UI lists every skill with enable/disable toggles), or
+- ask the agent: "List my skills." / "Disable the skill `read`."
+
+The agent will call `skills_list` / `skills_toggle` for you. Toggling takes effect immediately — you can verify in the same session by asking what skills are visible. If `dsh web` fails to start after installing, check the error is not a missing `@deepseek-ai/dsh-tools` (see above).
 
 ## Settings UI
 

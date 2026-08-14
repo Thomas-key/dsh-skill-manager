@@ -12,24 +12,50 @@ DeepSeek Harness 直接从文件系统加载技能（`~/.agents/skills/<name>/SK
 
 ## 安装
 
-本插件是 dsh bundle（声明了 `dsh.bundle.patch`），像普通插件一样安装：
+本插件是 dsh bundle（声明了 `dsh.bundle.patch`），像其他 profile 插件一样安装。
+
+### 环境要求
+
+- **Node.js ≥ 22.19**（用 `node --version` 确认）
+- 已有 dsh web profile（`dsh plugin` 命令操作 profile 目录，如 `--profile web`）
+
+### ⚠️ 同名包警告
+
+npm 上存在**另一个同名 `dsh-skill-manager` 包**（不同作者发布）。直接按裸包名安装可能装到错误的包。请始终显式指定本仓库：
 
 ```sh
+# 从 GitHub 安装
 dsh plugin --profile web add Thomas-key/dsh-skill-manager
-```
 
-或从本地目录安装：
-
-```sh
+# 或从本地目录安装
 dsh plugin --profile web add ./dsh-skill-manager
 ```
 
-重启 `dsh web` 后，直接对 agent 说：
+### 安装步骤
 
-> 列出我的技能。
-> 禁用 `read` 这个技能。
+你的 profile 目录是 pnpm workspace root，安装命令**必须带 `-w` 参数**（否则 pnpm 报 `ERR_PNPM_ADDING_TO_ROOT` 拒绝执行）：
 
-agent 会调用 `skills_list` / `skills_toggle` 完成操作。开关即时生效——同一会话里再问一次"能看到哪些技能"即可验证。
+```sh
+dsh plugin --profile web add -w Thomas-key/dsh-skill-manager
+```
+
+若从本地目录安装，插件的运行时依赖（`@deepseek-ai/dsh-tools`）必须**先在本地仓库装好**再 add（profile 是 link 方式引用该目录，Node 从目录内解析依赖；依赖缺失会导致 `dsh web` 启动即崩，报 `ERR_MODULE_NOT_FOUND`）：
+
+```sh
+cd dsh-skill-manager
+npm install
+cd ..
+dsh plugin --profile web add -w ./dsh-skill-manager
+```
+
+### 验证
+
+重启 `dsh web` 后，任选其一：
+
+- 打开**设置 → 技能**（设置页 UI 列出所有技能，带启用/禁用开关），或
+- 对 agent 说："列出我的技能。" / "禁用 `read` 这个技能。"
+
+agent 会调用 `skills_list` / `skills_toggle` 完成操作。开关即时生效——同一会话里再问一次"能看到哪些技能"即可验证。若装完 `dsh web` 启动失败，先检查报错是否为缺 `@deepseek-ai/dsh-tools`（见上文）。
 
 ## 设置页 UI
 
