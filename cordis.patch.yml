@@ -1,0 +1,6 @@
+# dsh-skill-manager's dsh profile bundle patch (declared by the
+# `dsh.bundle.patch` manifest field): applied over the dsh-base layer when
+# this package appears in a profile's `dsh.profile.bundles` list.
+- insert:
+    - id: skill-manager
+      name: dsh-skill-manager
