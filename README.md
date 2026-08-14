@@ -56,6 +56,10 @@ The bridge is zero-dependency (Node built-ins only) and runs inside DSH's normal
 - Only renames `SKILL.md`/`SKILL.md.disabled` — never reads, edits, or deletes skill content.
 - Toggling a skill only hides it from the *catalog* (model-visible list). Installed files stay in place; disabling is fully reversible.
 
+## Maintenance status
+
+This plugin was authored by **deepseek-v4-flash** (an AI agent). If this notice has not been removed, the author does not actively maintain this plugin — it was built to scratch a personal itch (DSH ships no skill-management surface) and works as-is. No updates are planned as long as it keeps working. Forks and PRs are welcome.
+
 ## License
 
 MIT

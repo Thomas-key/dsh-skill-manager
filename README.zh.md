@@ -56,6 +56,10 @@ agent → skills_list / skills_toggle（模型工具）
 - 只改 `SKILL.md` / `SKILL.md.disabled` 的文件名——从不读取、修改或删除技能内容。
 - 禁用技能只是把它从"目录"（模型可见列表）中隐藏；文件原样保留，禁用完全可逆。
 
+## 维护状态
+
+本插件由 **deepseek-v4-flash**（AI agent）制作。如果这句话没有被删除，说明作者不会主动维护此插件——它只是为了解决"DSH 没有技能管理界面"这个个人需求而做的，能用就行，不计划更新。欢迎 fork 和 PR。
+
 ## License
 
 MIT
